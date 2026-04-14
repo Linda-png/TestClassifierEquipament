@@ -45,7 +45,7 @@ private enum EquipmentDataset {
 
     static let exercicios: [String] = [
         "elevação frontal",
-        "remada",
+        "afundo",
         "abducao"
     ]
 

@@ -10,11 +10,11 @@ final class EquipamentMLService {
     
     static let shared = EquipamentMLService()
     
-    private let model: ClassifierEquipament4
+    private let model: TabularClassifierEquipament
     
     private init() {
         do {
-            self.model = try ClassifierEquipament4(
+            self.model = try TabularClassifierEquipament(
                 configuration: MLModelConfiguration()
             )
         } catch {
