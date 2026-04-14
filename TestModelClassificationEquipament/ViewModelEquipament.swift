@@ -11,20 +11,26 @@ import SwiftUI
 
 @MainActor
 final class ExerciseViewModel: ObservableObject {
-    
-    @Published var objetivo: String = "força"
-    @Published var exercicio: String = "elevação frontal do braço"
-    @Published var regiao: String = "ombro"
-    
+
+    let dataset = DatasetService.shared
+
+    @Published var objetivo: String
+    @Published var exercicio: String
+    @Published var regiao: String
     @Published var resultado: String = ""
-    
+
+    init() {
+        objetivo  = DatasetService.shared.objetivos.first  ?? ""
+        exercicio = DatasetService.shared.exercicios.first ?? ""
+        regiao    = DatasetService.shared.regioes.first    ?? ""
+    }
+
     func calcularEquipamento() {
         let input = ExerciseInput(
             objetivo: objetivo,
             exercicio: exercicio,
             regiao: regiao
         )
-        
         resultado = EquipamentMLService.shared.predict(input: input)
     }
 }
