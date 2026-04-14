@@ -14,6 +14,27 @@ struct ExerciseInput {
     let regiao: String
 }
 
+// MARK: - Estrutura decodificável do JSON
+private struct EquipmentDataset: Decodable {
+    let objetivos: [String]
+    let exercicios: [String]
+    let regioes: [String]
+
+    static func carregarDoBundle() -> EquipmentDataset {
+        guard
+            let url = Bundle.main.url(
+                forResource: Constants.Dataset.nomeArquivo,
+                withExtension: Constants.Dataset.extensaoArquivo
+            ),
+            let data = try? Data(contentsOf: url),
+            let dataset = try? JSONDecoder().decode(EquipmentDataset.self, from: data)
+        else {
+            fatalError("Arquivo \(Constants.Dataset.nomeArquivo).\(Constants.Dataset.extensaoArquivo) não encontrado ou inválido no bundle.")
+        }
+        return dataset
+    }
+}
+
 // MARK: - Fonte de dados do dataset
 final class DatasetService {
 
@@ -24,34 +45,9 @@ final class DatasetService {
     let regioes: [String]
 
     private init() {
-        objetivos = EquipmentDataset.objetivos
-        exercicios = EquipmentDataset.exercicios
-        regioes = EquipmentDataset.regioes
+        let dataset = EquipmentDataset.carregarDoBundle()
+        objetivos  = dataset.objetivos
+        exercicios = dataset.exercicios
+        regioes    = dataset.regioes
     }
-}
-
-// MARK: - Dataset centralizado
-// Para adicionar novas opções, edite apenas este enum.
-private enum EquipmentDataset {
-    static let objetivos: [String] = [
-        "fortalecimento",
-        "resistencia",
-        "mobilidade",
-        "alongamento",
-        "funcional",
-        "equilibrio",
-        "propriocepcao"
-    ]
-
-    static let exercicios: [String] = [
-        "elevação frontal",
-        "afundo",
-        "abducao"
-    ]
-
-    static let regioes: [String] = [
-        "ombro",
-        "joelho",
-        "quadril"
-    ]
 }

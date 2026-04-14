@@ -17,12 +17,12 @@ final class ExerciseViewModel: ObservableObject {
     @Published var objetivo: String
     @Published var exercicio: String
     @Published var regiao: String
-    @Published var resultado: String = ""
+    @Published var resultado: String = Constants.Strings.semResultado
 
     init() {
-        objetivo  = DatasetService.shared.objetivos.first  ?? ""
-        exercicio = DatasetService.shared.exercicios.first ?? ""
-        regiao    = DatasetService.shared.regioes.first    ?? ""
+        objetivo  = DatasetService.shared.objetivos.first  ?? Constants.Strings.semOpcao
+        exercicio = DatasetService.shared.exercicios.first ?? Constants.Strings.semOpcao
+        regiao    = DatasetService.shared.regioes.first    ?? Constants.Strings.semOpcao
     }
 
     func calcularEquipamento() {

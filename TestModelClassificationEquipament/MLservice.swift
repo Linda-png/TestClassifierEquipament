@@ -7,21 +7,21 @@
 import CoreML
 
 final class EquipamentMLService {
-    
+
     static let shared = EquipamentMLService()
-    
+
     private let model: TabularClassifierEquipament
-    
+
     private init() {
         do {
             self.model = try TabularClassifierEquipament(
                 configuration: MLModelConfiguration()
             )
         } catch {
-            fatalError("Erro ao carregar modelo: \(error)")
+            fatalError("\(Constants.Errors.erroCarregarModelo): \(error)")
         }
     }
-    
+
     func predict(input: ExerciseInput) -> String {
         do {
             let prediction = try model.prediction(
@@ -29,12 +29,11 @@ final class EquipamentMLService {
                 exercicio: input.exercicio,
                 regiao: input.regiao
             )
-            
             return prediction.equipamento
-            
+
         } catch {
-            print("Erro na predição:", error)
-            return "Erro"
+            print("\(Constants.Errors.erroPredicao):", error)
+            return Constants.Errors.erroRetorno
         }
     }
 }
